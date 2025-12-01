@@ -4,7 +4,7 @@ import logging
 
 from app.services.switching import switch_position
 # config.ini에서 설정값 가져오기 (테스트모드 여부, 비밀번호)
-from app.config import DRY_RUN, WEBHOOK_SECRET
+from app.config import DRY_RUN
 
 router = APIRouter()
 logger = logging.getLogger("webhook")
@@ -13,22 +13,11 @@ logger = logging.getLogger("webhook")
 class AlertPayload(BaseModel):
     symbol: str
     action: str
-    secret: str = None  # [추가] 비밀번호 필드 (기본값 None)
     strategy: str = None # [추가] 전략 이름 (통계용)
 
 @router.post("/webhook")
 async def webhook(payload: AlertPayload):
-    """
-    트레이딩뷰 알림을 수신하여 매매 로직을 실행합니다.
-    보안을 위해 비밀번호(secret)를 검사합니다.
-    """
     
-    # 1. 보안 검사: 비밀번호가 틀리면 즉시 차단
-    # (config.ini의 webhook_secret과 비교)
-    if payload.secret != WEBHOOK_SECRET:
-        logger.warning(f"⛔ [차단됨] 잘못된 비밀번호 접속 시도: {payload.secret}")
-        raise HTTPException(status_code=403, detail="Invalid webhook secret")
-
     # 2. 로그 출력
     sym = payload.symbol.upper().replace("/", "")
     action = payload.action.upper()

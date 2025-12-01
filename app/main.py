@@ -4,7 +4,7 @@ from app.routers.report import router as report_router, report
 import logging
 
 # 로그에 보여줄 설정값들 가져오기
-from app.config import DRY_RUN, TRADE_LEVERAGE, BUY_PCT, WEBHOOK_SECRET
+from app.config import DRY_RUN, TRADE_LEVERAGE, BUY_PCT
 
 # 스케줄러 (매일 리포트용)
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -24,15 +24,12 @@ def on_startup():
     # [시작 로그] 고객이 config.ini를 잘 고쳤는지 보여줍니다.
     # -----------------------------------------------------
     mode_emoji = "⚠️ TEST MODE (가상 매매)" if DRY_RUN else "🚀 LIVE MODE (실전 매매)"
-    # 비밀번호는 보안상 앞 2글자만 보여주고 가림
-    masked_secret = WEBHOOK_SECRET[:2] + "****" if WEBHOOK_SECRET else "설정안됨(위험)"
     
     print(f"\n{'='*50}")
     print(f"       🤖 자동매매 봇 시스템 가동 시작")
     print(f"{'='*50}")
     print(f" [상태] : {mode_emoji}")
     print(f" [설정] : 레버리지 x{TRADE_LEVERAGE} / 잔고사용 {BUY_PCT * 100}%")
-    print(f" [보안] : 웹훅 비밀번호 확인됨 ({masked_secret})")
     print(f"{'='*50}\n")
     # -----------------------------------------------------
 

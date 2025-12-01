@@ -29,10 +29,6 @@ else:
 EX_API_KEY    = config.get('BINANCE', 'api_key', fallback="")
 EX_API_SECRET = config.get('BINANCE', 'secret_key', fallback="")
 
-# 2. 보안 설정 (웹훅 비밀번호)
-# 트레이딩뷰 알림과 봇이 서로 암호를 확인할 때 사용
-WEBHOOK_SECRET = config.get('SECURITY', 'webhook_secret', fallback="my_secret_password")
-
 # 3. 거래 파라미터
 # getboolean, getfloat, getint를 사용하여 형변환 자동 처리
 DRY_RUN        = config.getboolean('TRADING', 'dry_run', fallback=True) # 기본값 True(안전)
