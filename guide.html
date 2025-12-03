@@ -6,56 +6,64 @@
     <title>AutoBot 설치 가이드</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .code-container {
-            background-color: #1f2937;
-            border: 1px solid #374151;
-            border-radius: 0.5rem;
-            margin-top: 0.75rem;
-            margin-bottom: 1.5rem;
+        /* 코드 박스 스타일 */
+        .code-box {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
             position: relative;
+            margin-top: 10px;
+            overflow: hidden;
         }
-        .code-text {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            color: #a7f3d0;
-            padding: 1.25rem;
-            padding-right: 4rem;
-            display: block;
-            overflow-x: auto;
-            white-space: pre-wrap;
+        .code-header {
+            background-color: #252526;
+            padding: 8px 15px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #9cdcfe;
+        }
+        .code-content {
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #d4d4d4;
             font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre;
         }
         .copy-btn {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background-color: #374151;
-            color: #d1d5db;
-            padding: 0.25rem 0.75rem;
+            background-color: #333;
+            color: white;
+            border: 1px solid #444;
+            padding: 4px 10px;
+            border-radius: 4px;
             font-size: 0.75rem;
-            border-radius: 0.3rem;
             cursor: pointer;
             transition: all 0.2s;
-            border: none;
         }
-        .copy-btn:hover { background-color: #10b981; color: white; }
-        .step-circle {
+        .copy-btn:hover {
             background-color: #10b981;
+            border-color: #10b981;
+        }
+        .step-num {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
             font-weight: bold;
-            font-size: 1.25rem;
-            margin-right: 1rem;
+            margin-right: 12px;
             flex-shrink: 0;
         }
-        a.link { color: #34d399; text-decoration: underline; }
+        .link-text { color: #34d399; text-decoration: underline; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans leading-relaxed">
+<body class="bg-gray-900 text-gray-200 font-sans leading-relaxed">
 
     <nav class="w-full bg-gray-800 p-4 border-b border-gray-700 sticky top-0 z-50">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
@@ -77,78 +85,128 @@
         
         <div class="text-center mb-16 border-b border-gray-700 pb-10">
             <h2 class="text-4xl font-bold mb-4 text-white">💻 개인 PC 설치 가이드</h2>
-            <p class="text-gray-400 text-lg">
-                집에 있는 컴퓨터(Windows/Mac)에서 바로 시작할 수 있습니다.<br>
-                복잡한 서버 설정 없이 아래 순서대로 따라 하세요.
+            <p class="text-gray-400">
+                복잡한 과정 없이, 내 컴퓨터에서 바로 자동매매를 시작하세요.<br>
+                아래 순서대로 따라 하면 10분 안에 완료됩니다.
             </p>
         </div>
 
-        <div class="mb-12">
-            <div class="flex items-center mb-4">
-                <div class="step-circle">1</div>
-                <h3 class="text-2xl font-semibold text-white">준비물 설치 (Python & Git)</h3>
+        <div class="mb-16">
+            <div class="flex items-center mb-6">
+                <div class="step-num">1</div>
+                <h3 class="text-2xl font-bold text-white">사전 준비 (필수 프로그램)</h3>
             </div>
-            <p class="text-gray-400 ml-14 mb-4">
-                봇을 실행하려면 <strong>파이썬(Python)</strong>과 <strong>깃(Git)</strong>이 필요합니다.<br>
-                이미 설치되어 있다면 건너뛰세요.
-            </p>
-            <ul class="ml-14 list-disc text-gray-400 space-y-2 mb-4">
-                <li><a href="https://www.python.org/downloads/" target="_blank" class="link">Python 다운로드</a> (설치 시 "Add to PATH" 체크 필수!)</li>
-                <li><a href="https://git-scm.com/downloads" target="_blank" class="link">Git 다운로드</a> (기본 설정대로 설치)</li>
-            </ul>
-        </div>
-
-        <div class="mb-12">
-            <div class="flex items-center mb-4">
-                <div class="step-circle">2</div>
-                <h3 class="text-2xl font-semibold text-white">프로그램 다운로드</h3>
-            </div>
-            <p class="text-gray-400 ml-14 mb-4">
-                윈도우 검색창에 <strong>"cmd"</strong>(명령 프롬프트) 또는 <strong>"PowerShell"</strong>을 검색해서 켭니다.<br>
-                그 검은 창에 아래 명령어를 복사해서 붙여넣으세요.
-            </p>
-            <div class="ml-14 code-container">
-                <button class="copy-btn" onclick="copyText('cmd1')">복사</button>
-                <code id="cmd1" class="code-text">git clone https://github.com/hanbeomrae/AutoBot_Distribution.git
-cd AutoBot_Distribution</code>
+            
+            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                <p class="mb-4 text-gray-300">봇을 실행하려면 아래 두 가지 프로그램이 꼭 필요합니다.</p>
+                <ul class="space-y-3 list-disc list-inside text-gray-400">
+                    <li>
+                        <strong>Python (파이썬)</strong>: 
+                        <a href="https://www.python.org/downloads/" target="_blank" class="link-text">다운로드 링크</a>
+                        <span class="text-yellow-500 text-sm ml-2">(설치할 때 "Add Python to PATH" 체크 필수!)</span>
+                    </li>
+                    <li>
+                        <strong>Git (깃)</strong>: 
+                        <a href="https://git-scm.com/downloads" target="_blank" class="link-text">다운로드 링크</a>
+                        <span class="text-sm ml-2">(기본 설정 그대로 계속 Next 눌러서 설치)</span>
+                    </li>
+                    <li>
+                        <strong>VS Code (편집기)</strong>: 
+                        <a href="https://code.visualstudio.com/" target="_blank" class="link-text">다운로드 링크</a>
+                        <span class="text-sm ml-2">(코드를 수정하기 편합니다)</span>
+                    </li>
+                </ul>
             </div>
         </div>
 
-        <div class="mb-12">
-            <div class="flex items-center mb-4">
-                <div class="step-circle">3</div>
-                <h3 class="text-2xl font-semibold text-white">필수 부품 설치</h3>
+        <div class="mb-16">
+            <div class="flex items-center mb-6">
+                <div class="step-num">2</div>
+                <h3 class="text-2xl font-bold text-white">프로그램 다운로드 (Clone)</h3>
             </div>
-            <p class="text-gray-400 ml-14 mb-4">
-                봇 작동에 필요한 라이브러리를 한 번에 설치합니다.
+            
+            <p class="text-gray-400 ml-11 mb-4">
+                1. 윈도우 검색창에 <strong>"cmd"</strong> 또는 <strong>"PowerShell"</strong>을 검색해서 실행하세요.<br>
+                2. 검은 창이 뜨면 아래 명령어를 복사해서 붙여넣고 엔터를 치세요.
             </p>
-            <div class="ml-14 code-container">
-                <button class="copy-btn" onclick="copyText('cmd2')">복사</button>
-                <code id="cmd2" class="code-text">pip install -r requirements.txt</code>
+
+            <div class="ml-11 code-box">
+                <div class="code-header">
+                    <span>Terminal</span>
+                    <button class="copy-btn" onclick="copyText('cmd1')">복사하기</button>
+                </div>
+                <div class="code-content" id="cmd1">git clone https://github.com/hanbeomrae/AutoBot_Distribution.git
+cd AutoBot_Distribution</div>
             </div>
         </div>
 
-        <div class="mb-12">
-            <div class="flex items-center mb-4">
-                <div class="step-circle">4</div>
-                <h3 class="text-2xl font-semibold text-white">설정 및 실행</h3>
+        <div class="mb-16">
+            <div class="flex items-center mb-6">
+                <div class="step-num">3</div>
+                <h3 class="text-2xl font-bold text-white">환경 설정 및 키 입력</h3>
             </div>
-            <p class="text-gray-400 ml-14 mb-4">
-                폴더 안의 <span class="text-green-400 font-bold">config.ini</span> 파일을 메모장으로 열어 <strong>라이선스 키</strong>를 입력하고 저장하세요.<br>
-                그다음 아래 명령어로 봇을 실행합니다.
+
+            <p class="text-gray-400 ml-11 mb-4">
+                봇이 작동하는 데 필요한 부품을 설치하고, 라이선스 키를 입력합니다.
             </p>
-            <div class="ml-14 code-container">
-                <button class="copy-btn" onclick="copyText('cmd3')">복사</button>
-                <code id="cmd3" class="code-text">python -m app.main</code>
+
+            <div class="ml-11 space-y-6">
+                <div>
+                    <h4 class="text-green-400 font-bold mb-2">① 필수 부품 설치</h4>
+                    <div class="code-box">
+                        <div class="code-header">
+                            <span>Terminal</span>
+                            <button class="copy-btn" onclick="copyText('cmd2')">복사하기</button>
+                        </div>
+                        <div class="code-content" id="cmd2">pip install -r requirements.txt</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-green-400 font-bold mb-2">② 라이선스 키 입력</h4>
+                    <p class="text-sm text-gray-400 mb-2">
+                        폴더 안에 있는 <code class="bg-gray-700 px-1 rounded">config.ini</code> 파일을 메모장이나 VS Code로 여세요.<br>
+                        [LICENSE] 부분에 아까 발급받은 키를 붙여넣고 저장하세요.
+                    </p>
+                    <div class="code-box">
+                        <div class="code-header">
+                            <span>config.ini (예시)</span>
+                        </div>
+                        <div class="code-content text-gray-500">
+[LICENSE]
+server_url = http://15.164.139.142:8000
+license_key = <span class="text-green-400">여기에_발급받은_키_붙여넣기</span></div>
+                    </div>
+                </div>
             </div>
-            <p class="ml-14 mt-3 text-green-400 font-bold text-sm">
-                ✅ "인증 성공" 메시지가 뜨면 설치 완료입니다!
+        </div>
+
+        <div class="mb-16">
+            <div class="flex items-center mb-6">
+                <div class="step-num">4</div>
+                <h3 class="text-2xl font-bold text-white">봇 실행하기</h3>
+            </div>
+            
+            <p class="text-gray-400 ml-11 mb-4">
+                모든 준비가 끝났습니다! 아래 명령어로 봇을 실행하세요.
             </p>
+
+            <div class="ml-11 code-box">
+                <div class="code-header">
+                    <span>Terminal</span>
+                    <button class="copy-btn" onclick="copyText('cmd3')">복사하기</button>
+                </div>
+                <div class="code-content" id="cmd3">python -m app.main</div>
+            </div>
+            
+            <div class="ml-11 mt-4 bg-green-900/30 border border-green-600 p-4 rounded text-green-400 text-sm">
+                ✅ <strong>성공 메시지:</strong> "인증 성공! 환영합니다"가 뜨면 정상 작동 중입니다.
+            </div>
         </div>
 
     </div>
 
-    <footer class="bg-gray-800 text-center py-8 text-gray-500 text-sm border-t border-gray-700">
+    <footer class="bg-gray-800 text-center py-10 text-gray-500 text-sm border-t border-gray-700">
         <p>&copy; 2025 AutoBot Community. All rights reserved.</p>
     </footer>
 
@@ -159,7 +217,7 @@ cd AutoBot_Distribution</code>
                 alert("명령어가 복사되었습니다!");
             }).catch(err => {
                 console.error('복사 실패:', err);
-                alert("복사에 실패했습니다.");
+                alert("복사에 실패했습니다. 직접 선택해서 복사해주세요.");
             });
         }
     </script>
