@@ -37,7 +37,7 @@ FEE_RATE       = config.getfloat('STRATEGY', 'fee_rate', fallback=0.0004)
 # =========================================================
 # 4. 라이선스 설정
 # =========================================================
-LICENSE_SERVER_URL = config.get('LICENSE', 'server_url', fallback="http://127.0.0.1:8000")
+LICENSE_SERVER_URL = config.get('LICENSE', 'server_url', fallback="http://15.164.139.142:8000")
 LICENSE_KEY        = config.get('LICENSE', 'license_key', fallback="")
 
 # 5. 안내 메시지
