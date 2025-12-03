@@ -1,0 +1,10 @@
+# 시스템 폴더 및 민감 정보 제외
+venv/
+__pycache__/
+*.pyc
+*.log
+users.db
+serviceAccountKey.json
+# config.ini 파일은 템플릿으로 공유해야 하므로, 여기에 넣지 않습니다.
+# 대신 config.ini에 실제 키를 넣었었다면 반드시 지워주세요!
+# 시스템 폴더 및 민감 정보 제외

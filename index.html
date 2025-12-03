@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoBot - 자동매매 로그인</title>
+    <script src="https://cdn.tailwindcss.com"></script> </head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+
+    <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-96 text-center">
+        <h2 class="text-3xl font-bold text-green-400 mb-6">AutoBot 로그인</h2>
+        
+        <div class="mb-4 text-left">
+            <label class="block text-gray-400 mb-2">아이디 (이메일)</label>
+            <input type="text" id="email" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-green-500 text-white" placeholder="admin@test.com">
+        </div>
+
+        <div class="mb-6 text-left">
+            <label class="block text-gray-400 mb-2">비밀번호</label>
+            <input type="password" id="password" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-green-500 text-white" placeholder="****">
+        </div>
+
+        <button onclick="login()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded transition duration-200">
+            로그인 하기
+        </button>
+
+        <p id="status-msg" class="mt-4 text-sm text-gray-400"></p>
+    </div>
+
+    <script>
+        async function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const msgBox = document.getElementById("status-msg");
+
+            if(!email || !password) {
+                alert("아이디와 비밀번호를 입력해주세요.");
+                return;
+            }
+
+            msgBox.innerText = "서버에 연결 중...";
+
+            try {
+                // 내 컴퓨터에서 돌아가는 서버(AutoBot_Server)로 요청
+                const response = await fetch("http://127.0.0.1:8000/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: email, password: password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    msgBox.innerText = "로그인 성공!";
+                    msgBox.style.color = "#4ade80"; // 녹색
+                    
+                    // 1. 성공 알림창 띄우기
+                    alert("✅ 로그인 성공! \n\n설치 가이드 페이지로 이동합니다.");
+                    
+                    // (중요) 나중에 봇에 넣기 위해 콘솔에도 출력
+                    console.log("라이선스 키:", data.license_key);
+
+                    // 2. 가이드 페이지로 이동 (핵심 기능)
+                    window.location.href = 'guide.html'; 
+
+                } else {
+                    msgBox.innerText = "로그인 실패: " + data.detail;
+                    msgBox.style.color = "#f87171"; // 빨간색
+                }
+            } catch (error) {
+                console.error(error);
+                msgBox.innerText = "서버 연결 실패 (서버가 꺼져있나요?)";
+                msgBox.style.color = "#f87171";
+                alert("⚠️ 서버와 연결할 수 없습니다.\n터미널에서 서버가 켜져 있는지 확인해주세요.");
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+if (response.ok) {
+    // 1. 알림창 내용 수정
+    alert("✅ 로그인 성공! \n\n[확인]을 누르면 설치 가이드 페이지로 이동합니다.");
+    
+    // 2. [핵심] 가이드 페이지로 이동시키는 코드
+    window.location.href = 'guide.html'; 
+}
