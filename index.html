@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoBot - 자동매매 로그인</title>
-    <script src="https://cdn.tailwindcss.com"></script> </head>
+    <title>AutoBot - 로그인/회원가입</title>
+    <meta name="description" content="AutoBot: 바이낸스 자동매매 시스템 공유 커뮤니티 및 설치 가이드.">
+    <meta name="keywords" content="자동매매, 바이낸스, 파인스크립트, 트레이딩뷰, AutoBot">
+    <script src="https://cdn.tailwindcss.com"></script> 
+</head>
 <body class="bg-gray-900 text-white flex items-center justify-center h-screen">
 
     <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-96 text-center">
-        <h2 class="text-3xl font-bold text-green-400 mb-6">AutoBot 로그인</h2>
+        <h2 class="text-3xl font-bold text-green-400 mb-6" id="form-title">AutoBot 로그인</h2>
         
         <div class="mb-4 text-left">
             <label class="block text-gray-400 mb-2">아이디 (이메일)</label>
-            <input type="text" id="email" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-green-500 text-white" placeholder="admin@test.com">
+            <input type="email" id="email" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-green-500 text-white" placeholder="이메일 주소">
         </div>
 
         <div class="mb-6 text-left">
@@ -20,29 +23,35 @@
             <input type="password" id="password" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-green-500 text-white" placeholder="****">
         </div>
 
-        <button onclick="login()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded transition duration-200">
+        <button onclick="handleAuth(true)" id="login-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded transition duration-200">
             로그인 하기
+        </button>
+        <button onclick="handleAuth(false)" id="register-btn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 rounded transition duration-200 mt-2">
+            회원가입 (30일 무료 라이선스)
         </button>
 
         <p id="status-msg" class="mt-4 text-sm text-gray-400"></p>
     </div>
 
     <script>
-        async function login() {
+        // 공통 인증 함수: isLogin이 true면 로그인, false면 회원가입
+        async function handleAuth(isLogin) {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
             const msgBox = document.getElementById("status-msg");
-
+            
             if(!email || !password) {
-                alert("아이디와 비밀번호를 입력해주세요.");
+                alert("이메일과 비밀번호를 모두 입력해주세요.");
                 return;
             }
 
-            msgBox.innerText = "서버에 연결 중...";
+            const endpoint = isLogin ? "/login" : "/register";
+            const btnText = isLogin ? "로그인" : "회원가입";
+            
+            msgBox.innerText = `${btnText} 처리 중...`;
 
             try {
-                // 내 컴퓨터에서 돌아가는 서버(AutoBot_Server)로 요청
-                const response = await fetch("http://127.0.0.1:8000/login", {
+                const response = await fetch(`http://127.0.0.1:8000${endpoint}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email: email, password: password }),
@@ -51,38 +60,27 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    msgBox.innerText = "로그인 성공!";
-                    msgBox.style.color = "#4ade80"; // 녹색
-                    
-                    // 1. 성공 알림창 띄우기
-                    alert("✅ 로그인 성공! \n\n설치 가이드 페이지로 이동합니다.");
-                    
-                    // (중요) 나중에 봇에 넣기 위해 콘솔에도 출력
-                    console.log("라이선스 키:", data.license_key);
+                    msgBox.innerText = `${btnText} 성공!`;
+                    msgBox.style.color = "#4ade80"; 
 
-                    // 2. 가이드 페이지로 이동 (핵심 기능)
+                    // 성공 알림 및 리다이렉트 (회원가입 시에도 라이선스 키 발급)
+                    const key = data.license_key;
+                    alert(`✅ ${btnText} 성공! \n\n발급된 라이선스 키:\n${key}`);
+                    console.log("라이선스 키:", key);
+                    
+                    // 가이드 페이지로 이동
                     window.location.href = 'guide.html'; 
 
                 } else {
-                    msgBox.innerText = "로그인 실패: " + data.detail;
-                    msgBox.style.color = "#f87171"; // 빨간색
+                    msgBox.innerText = `${btnText} 실패: ${data.detail}`;
+                    msgBox.style.color = "#f87171"; 
                 }
             } catch (error) {
-                console.error(error);
-                msgBox.innerText = "서버 연결 실패 (서버가 꺼져있나요?)";
+                console.error("연결 오류:", error);
+                msgBox.innerText = "서버 연결 실패 (서버가 켜져 있는지 확인해주세요)";
                 msgBox.style.color = "#f87171";
-                alert("⚠️ 서버와 연결할 수 없습니다.\n터미널에서 서버가 켜져 있는지 확인해주세요.");
             }
         }
     </script>
 </body>
 </html>
-
-
-if (response.ok) {
-    // 1. 알림창 내용 수정
-    alert("✅ 로그인 성공! \n\n[확인]을 누르면 설치 가이드 페이지로 이동합니다.");
-    
-    // 2. [핵심] 가이드 페이지로 이동시키는 코드
-    window.location.href = 'guide.html'; 
-}
