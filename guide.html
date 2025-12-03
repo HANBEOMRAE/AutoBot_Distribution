@@ -3,83 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoBot 배포 가이드</title>
+    <title>AutoBot 쉬운 설치 가이드</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #0f172a; color: #e2e8f0; font-family: 'Pretendard', sans-serif; }
-        
-        .code-box {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 0.8rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            overflow-x: auto;
-        }
-        .code-text {
-            font-family: 'Menlo', 'Monaco', monospace;
-            color: #4ade80;
-            font-size: 0.9rem;
-            white-space: pre;
-            line-height: 1.6;
-        }
-        .copy-btn {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background-color: #374151;
-            color: #e2e8f0;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid #475569;
-        }
-        .copy-btn:hover { background-color: #10b981; color: white; border-color: #10b981; }
-
-        .step-title {
-            font-size: 1.8rem;
-            font-weight: 800;
+        .btn-download {
+            background: linear-gradient(to right, #10b981, #059669);
             color: white;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #334155;
-            padding-bottom: 0.5rem;
-            margin-top: 4rem;
-        }
-        .step-title:first-child { margin-top: 0; }
-        
-        .sub-step-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #34d399;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            display: flex;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-flex;
             align-items: center;
+            transition: 0.2s;
         }
-        
-        .highlight-box {
-            background-color: #334155;
-            color: #f8fafc;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9em;
-        }
+        .btn-download:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .step-card { background-color: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+        .step-num { color: #34d399; font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; display: block; }
+        .highlight { color: #facc15; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <nav class="w-full bg-slate-900/95 border-b border-slate-700 sticky top-0 z-50 backdrop-blur">
-        <div class="max-w-5xl mx-auto flex justify-between items-center p-4">
+        <div class="max-w-4xl mx-auto flex justify-between items-center p-4">
             <div class="flex items-center gap-6">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl">🤖</span>
-                    <h1 class="text-xl font-bold text-green-400 tracking-wide">AutoBot Guide</h1>
-                </div>
+                <span class="text-xl font-bold text-green-400 tracking-wide">🤖 AutoBot Guide</span>
                 <div class="hidden md:flex gap-6 text-sm font-medium">
                     <a href="guide.html" class="text-green-400 border-b-2 border-green-400 pb-1">설치 가이드</a>
                     <a href="news.html" class="text-gray-400 hover:text-white transition">새소식 & 지표</a>
@@ -89,136 +38,70 @@
         </div>
     </nav>
 
-    <div class="max-w-4xl mx-auto py-16 px-6">
+    <div class="max-w-3xl mx-auto py-16 px-6">
+        
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold mb-4 text-white">🚀 3분 완성! 초간편 설치법</h2>
+            <p class="text-slate-400">어려운 명령어 입력은 이제 그만! 더블 클릭으로 끝내세요.</p>
+        </div>
 
-        <div class="mb-10"><h2 class="step-title">1. 사전 준비</h2><div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-sm"><ul class="space-y-3 list-disc list-inside text-gray-300"><li><strong>도메인</strong> (가비아 등에서 구매)</li><li><strong>AWS 계정</strong> (EC2, Route 53, IAM)</li><li><strong>GitHub 계정</strong> & <strong>VS Code</strong></li><li><strong>Python 3.11+</strong> 설치</li></ul></div></div>
-        <div class="mb-10"><h2 class="step-title">2. GitHub 저장소 생성</h2><div class="code-box"><button class="copy-btn" onclick="copyText('git-cmd')">복사하기</button><div id="git-cmd" class="code-text">git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/본인계정/레포명.git
-git push -u origin main</div></div></div>
-        <div class="mb-10"><h2 class="step-title">3. .env 파일 설정</h2><div class="code-box"><button class="copy-btn" onclick="copyText('env-example')">복사하기</button><div id="env-example" class="code-text text-yellow-300">BINANCE_API_KEY=값
-BINANCE_SECRET_KEY=값</div></div></div>
-        <div class="mb-10"><h2 class="step-title">4. EC2 인스턴스 설정</h2><ul class="list-disc list-inside space-y-3 text-gray-300 ml-2"><li>Ubuntu 22.04 LTS</li><li>포트: 22, 80, 443 허용</li></ul></div>
-        <div class="mb-20"><h2 class="step-title">5. 서버 코드 가져오기</h2><div class="code-box"><button class="copy-btn" onclick="copyText('server-setup')">복사하기</button><div id="server-setup" class="code-text">sudo apt update && sudo apt upgrade -y
-sudo apt install git nginx certbot python3-certbot-nginx python3-pip -y
-git clone https://github.com/본인계정/레포명.git
-cd 레포명
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt</div></div></div>
-        <div class="mb-20"><h2 class="step-title">6. 도메인 연결 (Route 53)</h2><ul class="list-disc list-inside space-y-3 text-gray-300 ml-2"><li>가비아 네임서버 변경</li><li>Route 53 A 레코드(IP) 연결</li></ul></div>
-
-        <div class="mb-20">
-            <h2 class="step-title">7. Nginx + SSL (Let's Encrypt)</h2>
-            
-            <h3 class="sub-step-title">① Nginx 설정 파일 수정</h3>
-            <div class="code-box">
-                <button class="copy-btn" onclick="copyText('nginx-nano')">복사하기</button>
-                <div id="nginx-nano" class="code-text">sudo nano /etc/nginx/sites-available/default</div>
-            </div>
-            
-            <p class="text-gray-400 mb-2 ml-2">편집기가 열리면 내용을 모두 지우고 아래 내용을 붙여넣으세요.</p>
-            <div class="code-box">
-                <button class="copy-btn" onclick="copyText('nginx-conf')">복사하기</button>
-                <div id="nginx-conf" class="code-text">server {
-    listen 80;
-    server_name 여기에_당신의_도메인;
-
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-}</div>
-            </div>
-            <p class="text-sm text-slate-500 ml-2">👉 저장: <code>Ctrl + X</code> -> <code>Y</code> -> <code>Enter</code></p>
-
-            <h3 class="sub-step-title">② SSL 인증서 발급</h3>
-            <div class="code-box">
-                <button class="copy-btn" onclick="copyText('certbot-cmd')">복사하기</button>
-                <div id="certbot-cmd" class="code-text"># Nginx 재시작
-sudo systemctl restart nginx
-
-# 인증서 발급 (이메일 입력 및 y 누르기)
-sudo certbot --nginx -d 여기에_당신의_도메인</div>
+        <div class="step-card">
+            <span class="step-num">STEP 1. 준비물 설치</span>
+            <p class="text-gray-300 mb-4">
+                봇을 실행하려면 <strong>파이썬(Python)</strong>이 꼭 필요합니다. (이미 있다면 패스!)
+            </p>
+            <a href="https://www.python.org/downloads/" target="_blank" class="btn-download">
+                🐍 Python 다운로드 하러 가기
+            </a>
+            <div class="mt-4 bg-yellow-900/30 border border-yellow-600 p-3 rounded text-sm text-yellow-200">
+                ⚠️ <strong>주의:</strong> 설치할 때 맨 아래 <strong>"Add python.exe to PATH"</strong> 체크박스를 꼭! 체크해주세요.
             </div>
         </div>
 
-        <div class="mb-20">
-            <h2 class="step-title">8. FastAPI 서비스 등록 (systemd)</h2>
-            <p class="text-slate-400 mb-4">서버가 재부팅되어도 자동으로 실행되도록 설정합니다.</p>
-
-            <h3 class="sub-step-title">① 서비스 파일 생성</h3>
-            <div class="code-box">
-                <button class="copy-btn" onclick="copyText('service-file')">복사하기</button>
-                <div id="service-file" class="code-text">sudo nano /etc/systemd/system/autobot.service</div>
-            </div>
-
-            <div class="code-box">
-                <button class="copy-btn" onclick="copyText('service-content')">복사하기</button>
-                <div id="service-content" class="code-text">[Unit]
-Description=AutoBot Server
-After=network.target
-
-[Service]
-User=ubuntu
-WorkingDirectory=/home/ubuntu/레포지토리이름
-ExecStart=/home/ubuntu/레포지토리이름/.venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
-Restart=always
-
-[Install]
-WantedBy=multi-user.target</div>
-            </div>
-            <p class="text-sm text-yellow-500 mt-2 ml-2">⚠️ '레포지토리이름' 부분을 본인의 폴더명으로 꼭 수정하세요!</p>
-
-            <h3 class="sub-step-title">② 실행 및 활성화</h3>
-            <div class="code-box">
-                <button class="copy-btn" onclick="copyText('service-start')">복사하기</button>
-                <div id="service-start" class="code-text">sudo systemctl daemon-reload
-sudo systemctl enable autobot
-sudo systemctl start autobot
-sudo systemctl status autobot</div>
-            </div>
+        <div class="step-card">
+            <span class="step-num">STEP 2. 봇 다운로드</span>
+            <p class="text-gray-300 mb-4">
+                아래 버튼을 눌러 깃허브로 이동한 뒤, <span class="highlight">Code -> Download ZIP</span>을 눌러 다운로드하세요.<br>
+                다운로드한 압축 파일은 바탕화면에 풀어주세요.
+            </p>
+            <a href="https://github.com/hanbeomrae/AutoBot_Distribution" target="_blank" class="btn-download bg-gray-700 hover:bg-gray-600">
+                📦 깃허브에서 다운로드 하기
+            </a>
         </div>
 
-        <div class="mb-20">
-            <h2 class="step-title">9. 실시간 로그 확인 및 팁</h2>
-            
-            <h3 class="sub-step-title">📋 로그 확인 명령어</h3>
-            <div class="code-box">
-                <button class="copy-btn" onclick="copyText('log-cmd')">복사하기</button>
-                <div id="log-cmd" class="code-text">sudo journalctl -u autobot -f</div>
+        <div class="step-card">
+            <span class="step-num">STEP 3. 키 입력하기</span>
+            <p class="text-gray-300 mb-2">
+                압축 푼 폴더 안에 있는 <strong>config.ini</strong> 파일을 메모장으로 여세요.
+            </p>
+            <div class="bg-black/30 p-4 rounded border border-gray-600 font-mono text-sm text-gray-400">
+                [LICENSE]<br>
+                server_url = http://15.164.139.142:8000<br>
+                license_key = <span class="text-green-400">여기에_발급받은_키_붙여넣기</span>
             </div>
+            <p class="text-gray-400 text-sm mt-2">👉 입력 후 저장(Ctrl+S)하고 닫으세요.</p>
+        </div>
 
-            <div class="bg-yellow-900/30 border-l-4 border-yellow-500 p-6 rounded-r-lg mt-8">
-                <h4 class="text-xl font-bold text-yellow-400 mb-4">💡 꿀팁 (Tips)</h4>
-                <ul class="list-disc list-inside space-y-3 text-gray-300">
-                    <li><span class="highlight-box text-red-300">.env</span> 파일은 절대 깃허브에 올리지 마세요. (해킹 위험)</li>
-                    <li>EC2 접속 시 사용자는 항상 <code>ubuntu</code> 입니다.</li>
-                    <li>코드를 수정했다면, 서버에서 <code>git pull</code> 후 <code>sudo systemctl restart autobot</code>을 입력해야 반영됩니다.</li>
-                </ul>
+        <div class="step-card border-green-500/50 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+            <span class="step-num">STEP 4. 더블 클릭으로 실행!</span>
+            <p class="text-gray-300 mb-4">
+                이제 폴더 안에 있는 <strong class="text-green-400 text-lg">run.bat</strong> 파일을 더블 클릭하세요.<br>
+                자동으로 필요한 부품을 설치하고 봇이 켜집니다.
+            </p>
+            <div class="bg-black/50 p-4 rounded text-center">
+                <span class="text-4xl">🖱️🖱️</span>
+                <p class="mt-2 text-green-400 font-bold">"run.bat" 더블 클릭!</p>
             </div>
+            <p class="mt-4 text-sm text-gray-400">
+                ✅ 검은 창에 <strong>"인증 성공! 환영합니다"</strong>가 뜨면 성공입니다.
+            </p>
         </div>
 
     </div>
 
-    <footer class="bg-slate-800 text-center py-10 text-slate-500 text-sm border-t border-slate-700">
-        <p>&copy; 2025 AutoBot Community. All rights reserved.</p>
+    <footer class="bg-slate-800 text-center py-8 text-slate-500 text-sm">
+        &copy; 2025 AutoBot Community.
     </footer>
-
-    <script>
-        function copyText(elementId) {
-            const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("내용이 복사되었습니다!");
-            }).catch(err => {
-                console.error('복사 실패:', err);
-                alert("복사에 실패했습니다.");
-            });
-        }
-    </script>
 
 </body>
 </html>
